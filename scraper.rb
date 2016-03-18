@@ -1,25 +1,80 @@
-# This is a template for a Ruby scraper on morph.io (https://morph.io)
-# including some code snippets below that you should find helpful
+#!/bin/env ruby
+# encoding: utf-8
 
-# require 'scraperwiki'
-# require 'mechanize'
-#
-# agent = Mechanize.new
-#
-# # Read in a page
-# page = agent.get("http://foo.com")
-#
-# # Find somehing on the page using css selectors
-# p page.at('div.content')
-#
-# # Write out to the sqlite database using scraperwiki library
-# ScraperWiki.save_sqlite(["name"], {"name" => "susan", "occupation" => "software developer"})
-#
-# # An arbitrary query against the database
-# ScraperWiki.select("* from data where 'name'='peter'")
+require 'scraperwiki'
+require 'pry'
+require 'colorize'
+require 'capybara'
+require 'capybara/dsl'
+require 'capybara/poltergeist'
 
-# You don't have to do things with the Mechanize or ScraperWiki libraries.
-# You can use whatever gems you want: https://morph.io/documentation/ruby
-# All that matters is that your final data is written to an SQLite database
-# called "data.sqlite" in the current working directory which has at least a table
-# called "data".
+include Capybara::DSL
+Capybara.default_driver = :poltergeist
+
+class String
+  def tidy
+    self.gsub(/[[:space:]]+/, ' ').strip
+  end
+end
+
+def noko_for(url)
+  Nokogiri::HTML(open(url).read)
+end
+
+def scrape_page(url)
+    visit url
+    regions = []
+    # gather all the links first time so we don't need to revisit
+    # the page
+    all('#block-menu-menu-region-state-representative li.leaf a').each do |link|
+        regions << link[:href]
+    end
+    regions.each do |region|
+      scrape_area(region)
+    end
+end
+
+def scrape_area(url)
+    visit url
+    people = []
+    all('div.region-representative-read-more a').each do |link|
+        people << link[:href]
+    end
+    people.each do |person_url|
+      scrape_person(person_url)
+    end
+end
+
+def scrape_person(url)
+    visit url
+
+    dob = page.find('.field-name-field-representative-dob').text.tidy rescue ""
+    if not dob == ""
+        dob = DateTime.parse(dob)
+    end
+
+    data = {
+      id: File.basename(url).tr('%',''),
+      source: url,
+      dob: dob.strftime('%F'),
+      party: page.find('.field-name-field-party').text.tidy,
+      cons: page.find('.field-name-field-constituency').text.tidy,
+      name: page.find('span[property="dc:title"]', :visible => 'all')[:content].text.tidy,
+      image: page.find('img[typeof="foaf:Image"]')[:src],
+      term: 2015,
+    }
+
+    ScraperWiki.save_sqlite([:id], data)
+    puts data[:dob]
+end
+
+term = {
+    id: 2015,
+    name: '2015-',
+    start_date: '2015-11-08',
+    source: 'http://www.pyithuhluttaw.gov.mm/?q=representatives',
+}
+
+ScraperWiki.save_sqlite([:id], term, 'terms')
+
+scrape_page('http://www.pyithuhluttaw.gov.mm/?q=representatives')
