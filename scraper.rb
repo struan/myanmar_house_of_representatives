@@ -65,7 +65,6 @@ def scrape_person(url)
     }
 
     ScraperWiki.save_sqlite([:id], data)
-    puts data[:dob]
 end
 
 term = {
