@@ -51,12 +51,13 @@ def scrape_person(url)
     dob = page.find('.field-name-field-representative-dob').text.tidy rescue ""
     if not dob == ""
         dob = DateTime.parse(dob)
+        dob = dob.strftime('%F')
     end
 
     data = {
       id: File.basename(url).tr('%',''),
       source: url,
-      dob: dob.strftime('%F'),
+      dob: dob,
       party: page.find('.field-name-field-party').text.tidy,
       cons: page.find('.field-name-field-constituency').text.tidy,
       name: page.find('span[property="dc:title"]', :visible => 'all')[:content].text.tidy,
