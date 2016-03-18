@@ -8,6 +8,19 @@ require 'capybara'
 require 'capybara/dsl'
 require 'capybara/poltergeist'
 
+# we need to use capybara from this as the page actually loads via
+# JS and some sort of iframe so non JS scraping only gets you the
+# iframe and JS :(
+
+# ignore JS errors on the page
+options = {
+    js_errors: false,
+}
+
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, options)
+end
+
 include Capybara::DSL
 Capybara.default_driver = :poltergeist
 
