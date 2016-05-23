@@ -74,9 +74,14 @@ def scrape_person(url)
       party: page.find('.field-name-field-party').text.tidy,
       cons: page.find('.field-name-field-constituency').text.tidy,
       name: page.find('span[property="dc:title"]', :visible => 'all')[:content],
-      image: page.find('img[typeof="foaf:Image"]')[:src],
       term: 2015,
     }
+
+    # not all pages have images
+    image = page.find('img[typeof="foaf:Image"]')[:src] rescue nil
+    if not image.nil?
+        data[:image] = image
+    end
 
     ScraperWiki.save_sqlite([:id], data)
 end
