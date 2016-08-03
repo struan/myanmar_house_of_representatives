@@ -39,8 +39,8 @@ def noko_for(url)
 end
 
 def sha_url(url)
-# strip and sha the session variable
-Digest::SHA1.hexdigest url.gsub(/_piref[\d_]+\./, '')
+  # strip and sha the session variable
+  Digest::SHA1.hexdigest url.gsub(/_piref[\d_]+\./, '')
 end
 
 def visit_page(url)
