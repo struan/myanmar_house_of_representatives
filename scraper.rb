@@ -7,6 +7,7 @@ require 'colorize'
 require 'capybara'
 require 'capybara/dsl'
 require 'capybara/poltergeist'
+require 'scraped_page_archive/capybara'
 
 # we need to use capybara from this as the page actually loads via
 # JS and some sort of iframe so non JS scraping only gets you the
