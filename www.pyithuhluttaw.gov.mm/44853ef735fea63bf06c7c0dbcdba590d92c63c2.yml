@@ -1,0 +1,10 @@
+---
+request:
+  method: get
+  uri: http://www.pyithuhluttaw.gov.mm/?q=representative/%E1%80%A5%E1%80%AE%E1%80%B8%E1%80%B1%E1%80%80%E1%80%BA%E1%80%AC%E1%80%B9%E1%80%9E%E1%80%94%E1%80%B9%E1%80%B8
+response:
+  status:
+    message: OK
+    code: 200
+  date:
+  - Thu, 04 Aug 2016 18:42:10 GMT
