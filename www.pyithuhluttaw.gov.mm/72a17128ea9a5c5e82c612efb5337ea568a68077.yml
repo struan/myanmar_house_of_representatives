@@ -1,0 +1,10 @@
+---
+request:
+  method: get
+  uri: http://www.pyithuhluttaw.gov.mm/?q=mandalay/representatives
+response:
+  status:
+    message: OK
+    code: 200
+  date:
+  - Thu, 04 Aug 2016 18:49:33 GMT
