@@ -4,7 +4,7 @@ request:
   uri: http://www.pyithuhluttaw.gov.mm/?q=representatives
 response:
   status:
-    message: NOT OK
-    code: 503
+    message: OK
+    code: 200
   date:
-  - Mon, 08 Aug 2016 04:06:36 GMT
+  - Wed, 10 Aug 2016 21:47:57 GMT
