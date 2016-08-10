@@ -4,7 +4,7 @@ request:
   uri: http://www.pyithuhluttaw.gov.mm/?q=representative/%E1%80%A5%E1%80%AE%E1%80%B8%E1%80%81%E1%80%84%E1%80%B9%E1%80%B1%E1%80%99%E1%80%AC%E1%80%84%E1%80%B9%E1%80%8A%E1%80%AD%E1%80%B3
 response:
   status:
-    message: NOT OK
-    code: 503
+    message: OK
+    code: 200
   date:
-  - Sun, 07 Aug 2016 15:47:00 GMT
+  - Wed, 10 Aug 2016 21:49:40 GMT
